@@ -966,5 +966,40 @@
 
 })();
 </script>
+  <form onsubmit="voegReceptToe(titel.value, ingredienten.value, bereiding.value); return false;">
+    <input name="titel" placeholder="Titel">
+    <textarea name="ingredienten" placeholder="Ingrediënten"></textarea>
+    <textarea name="bereiding" placeholder="Bereiding"></textarea>
+    <button type="submit">Opslaan</button>
+</form>
+
+<div id="recepten-lijst"></div>
+
+<script>
+let recepten = JSON.parse(localStorage.getItem("recepten")) || [];
+
+function voegReceptToe(titel, ingredienten, bereiding) {
+    recepten.push({ titel, ingredienten, bereiding });
+    localStorage.setItem("recepten", JSON.stringify(recepten));
+    toonRecepten();
+}
+
+function toonRecepten() {
+    const lijst = document.getElementById("recepten-lijst");
+    lijst.innerHTML = "";
+    recepten.forEach(r => {
+        lijst.innerHTML += `
+            <div class="recept">
+                <h3>${r.titel}</h3>
+                <p><strong>Ingrediënten:</strong> ${r.ingredienten}</p>
+                <p><strong>Bereiding:</strong> ${r.bereiding}</p>
+            </div>
+        `;
+    });
+}
+
+toonRecepten();
+</script>
+
 </body>
 </html>
